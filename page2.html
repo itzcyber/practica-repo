@@ -4,11 +4,245 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Pagina 2 - test</title>
+    <title>Ejercicio Practicando</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="#">
+    <script
+			  src="https://code.jquery.com/jquery-3.6.0.slim.js"
+			  integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+			  crossorigin="anonymous"></script>
 </head>
-<body>
-<h1>page2test</h1>
-<button onclick="window.location.href = 'index.html';" id="myButton" class=" container float-left submit-button bg-blue-400 text-center mx-auto" >Ir a pagina index</button>
-</body>
+<style>
+    table {
+  text-align: left;
+  position: relative;
+  border-collapse: collapse; 
+  width:100%;
+}
+th, td {
+  padding: 0.25rem;
+}
+th {
+  background: rgb(63, 111, 156); 
+  color:#fff;
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+td{
+    border: 1px solid #3c3c3c;
+}
+    .contain{
+        height: 200px;
+        overflow:auto;
+    }
+
+</style>
+
+    <body class="">
+        <div class="flex justify-center relative">
+            <div class="border bg-blue-400 px-20 rounded-lg border py-6 w-4/5 my-2 mx-auto md:w-full >
+                <h1 class = "border bg-red-100" >Agregar valores al arreglo</h1>
+                    <div>-</div>
+
+                    <form>
+                        <div class="bg-blue-300 flex flex-col mb-4 border formBox">
+                            <label for="name">Nombre: </label>
+                            <input class="bg-blue-200 text-black border" type="text" id="name" placeholder="Name">
+                        </div>
+
+                        <div class="bg-blue-300 flex flex-col mb-4 border formBox">
+                            <label for="alias">Alias:</label>
+                            <input class="bg-blue-200 text-black border" type="text" id="alias"placeholder="Alias">    
+                        </div>
+                        <div class="text-center py-6">
+                            <label for="buscador">Buscador: </label>
+                            <input class="bg-blue-200 text-black border-8" type="text" onkeyup="filtroName()" id="buscador" placeholder="Buscador">
+                        </div>
+
+                        <div class="float-right bg-blue-500 hover:bg-red-400 text-white border rounded-lg py-2 px-2 ">
+                            <button class="" type="button" id="btndelete" onclick="borrarThis()">Borrar</button>
+                        </div>
+                        <div>
+                            <input class="bg-blue-200 text-black border w-10 float-right h-10 mx-6 " type="text" id="borrarEsto" placeholder="0">
+                        </div>
+
+                        <div class="float-left bg-blue-500 hover:bg-red-400 text-white border rounded-lg py-2 px-2 ">
+                            <button class="" id="btnsuccess" onclick="addForm(event); buildTable();" >Agregar</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    
+
+    <div class="h-64 overflow-auto ">    
+        <table class="table table-striped border-separate md:w-full fixed inset-x-0 bottom-40 overflow-scroll w-full h-32 sticky top-0" id="mytable">
+            <thead class="bg-info text-align-left sticky top-0 ">
+                <th class="bg-black text-white sticky-col">ID</th>
+                <th class="bg-black text-white sticky-col">Name</th>
+                <th class="bg-black text-white sticky-col">Alias</th>
+                <th class="w-1/4">delete rows</th>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+
+        </table>
+    </div>
+        <div class="top w-1/3 px-24 py-4 border submit-button bg-blue-400 text-center w-4/5 my-2 mx-auto md:w-full  ">
+            <button class="mb-4 bg-yellow-500 border" onclick="buildTable();" >Construir tabla</button>  
+
+            <button class=" bg-red-500 border" onclick="window.location.href = 'index.html';" id="myButton" class="" >
+                Volver al index</button>
+
+        </div>
+
+
+
+        <div class="contain">
+            <table id="tablita2">
+                <thead>
+                    <tr>
+                        <th class="text-center">IDE</th>
+                        <th class="text-center">NAMECITO</th>
+                        <th class="text-center">ALIASITO</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </body>
+
+
+
+<script>
+
+
+        let array = [];
+        let arrayTemp =[];
+
+        var i = 1;
+
+        const addForm = (event) => {
+            event.preventDefault();
+            let obj = {
+                id: i++,
+                name: document.getElementById('name').value,
+                alias: document.getElementById('alias').value,
+            }
+
+            array.push(obj);
+            document.querySelector('form').reset() //consultar
+            //display
+            console.log('added ' , array ); //consultar
+        }
+
+    function buildTable() {
+        var table = document.getElementById('mytable').getElementsByTagName('tbody')[0];
+        var filas = '';
+
+        for (var i = 0; i < array.length; i++){
+            filas += ` <tr> 
+                <td> ${array[i].id}</td><td> ${array[i].name}</td><td> ${array[i].alias}</td> <td><input type="button" class="borrar" onclick="borrarItem(${array[i].id});" value="Eliminar"></td>
+                        <tr>`;
+        }
+        table.innerHTML = filas;
+
+
+    }
+
+    function buildTable2() {
+
+        var tablita2 = document.getElementById('tablita2').getElementsByTagName('tbody')[0];
+        var filas = '';
+
+        for (var i = 0; i < arrayTemp.length; i++){
+            filas += ` <tr> 
+                <td> ${arrayTemp[i].id}</td><td> ${arrayTemp[i].name}</td><td> ${arrayTemp[i].alias}</td> <td><input type="button" class="borrar" onclick="borrarItem(${arrayTemp[i].id});" value="Eliminar"></td>
+                        <tr>`;
+        }
+
+        tablita2.innerHTML = filas;
+
+    }
+
+            function filtroName() {
+                
+                let query = document.getElementById('buscador').value;
+                
+                arrayTemp = array.filter(function(element) {
+                    return element.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+
+                })
+
+                buildTable2();
+            
+            
+            }
+
+
+
+
+
+
+
+             function borrarItem(id){
+        
+                let idx = array.findIndex(element => element.id == id );
+                array.splice(idx, 1);
+                buildTable();
+            }
+
+        function borrarThis(){ //borrar por id, busca el input y lo iguala y borra.
+   
+            // console.warn(array);
+                let id = document.getElementById('borrarEsto').value;
+                let idx = array.findIndex(element => element.id == id);
+                if (idx != -1) {
+                    array.splice(idx, 1);
+                    console.warn(array);
+                    buildTable();
+
+                } else {
+                    console.warn("no se encontró ese id.");
+                }    
+
+           
+     //   console.warn(iDele);
+     //   console.warn(array);
+
+    }
+
+    function autoRefresh() {
+        window.location.reload();
+    }
+
+
+    
+    function deleteRow(el) {
+        if (!confirm("Are you sure you want to delete?")) return;
+        var tbl = el.parentNode.parentNode.parentNode;
+        var row = el.parentNode.parentNode.rowIndex;
+        tbl.deleteRow(row);
+}
+
+ 
+function productDelete(ctl) {
+    $(ctl).parents("tr").remove();
+}
+
+function deleter() {
+
+    array.splice(this.row ,1);
+    buildTable();
+}
+
+
+
+
+</script>
+
 </html>
