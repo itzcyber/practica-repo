@@ -97,7 +97,8 @@
                 <br><br>
                 <div
                     class="text-center bg-blue-500 border-2 py-2 px-10 hover:bg-yellow-500 rounded-lg display inline-block">
-                    <button class="h-4 text-white" type="button" id="editbtn" onclick="editThis()">Editar</button>
+                    <button class="h-4 text-white" type="button" id="editbtn" onclick="guardarEdit()">Guardar
+                        Edit</button>
                 </div>
 
                 <div>
@@ -174,7 +175,6 @@
     let arrayTemp = [];
     var i = 1;
     var mytable = document.getElementById('mytable');
-
 
     const addForm = (event) => {
         event.preventDefault();
@@ -262,7 +262,7 @@
 
     function editThis(id) {
 
-        console.log(`id del item: ${id}`);
+        console.log(`id del item: ${id}`, `${name}`);
         let xxx = finderArray(id);
         idActual = id;
         document.getElementById("name").value = xxx.name;
@@ -271,29 +271,34 @@
 
     function guardarEdit() {
 
+        //recuperar valores de name y alias         paso1
         let name = document.getElementById("name").value;
         let alias = document.getElementById("alias").value;
 
-        //recuperar valores de name y alias
-        
-        
+        //buscar el objeto dentro del array         paso2
+        let item = finderArray(idActual);
+        console.log(item);
 
+        // modificar elemento encontrado            paso 3
+        item.name = name;
+        item.alias = alias;
 
-        //buscar el objeto dentro del array
+        //reemplazar item dentro del array          paso 4
+        let index = indexFinder(idActual);
+        array.splice(index, 1, item);
+        buildTable();
+    }
 
-        // modificar elemento encontrado
-
-
-        //reemplazar item dentro del array
+    function indexFinder(id) {
+        return array.findIndex(element => element.id == id);
 
     }
 
     function finderArray(id) {
-        
-        return array.find(element => element.id == id);
-        
-    }
 
+        return array.find(element => element.id == id);
+
+    }
 </script>
 
 </html>
